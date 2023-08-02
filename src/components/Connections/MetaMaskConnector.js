@@ -3,7 +3,7 @@ import { InjectedConnector } from "@web3-react/injected-connector";
 export const injectedMetaMask = new InjectedConnector({
     supportedChainIds: [1],
     rpcUrls: {
-        1: "https://mainnet.infura.io/v3/c3ce9016311c4a9e81eaaeeb98f96359",
+        1: "https://rpc.ankr.com/eth",
     },
     name: "Metamask",
     type: "metamask",

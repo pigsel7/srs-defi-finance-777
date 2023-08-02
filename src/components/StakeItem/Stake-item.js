@@ -397,7 +397,7 @@ export const StakeItem = ({
           </span>
           </StyledStakeItemHelp>
           </StyledAPR>
-          {version === "1" ? <p> {APR ? `777%` : '777%' }</p> : <p> { APR ? `${APR}%` : '-' }</p>}
+          {version == "1" ? <p> { APR ? `777%` : '777%' }</p> : <p> {APR ? `${APR}%` : '-' }</p>}
       </StyledStakeItemRow>
       <StyledStakeItemRowWithButton>
           <StyledStakeItemTextWithButton>
@@ -407,9 +407,11 @@ export const StakeItem = ({
               <p>{ earned }</p>
           </StyledStakeItemTextWithButton>
 
-          <StyledStakeItemButton activeButton={ approved && canHarvest } onClick={ approved && canHarvest ? harvest : () => {} }>
+          {version === "1" ? <StyledStakeItemButton activeButton={ approved && canHarvest } onClick={ approved && canHarvest ? harvest : () => {} }>
               {t("GET REWARD")} 
-          </StyledStakeItemButton>
+          </StyledStakeItemButton> : <StyledStakeItemButton activeButton={ false } onClick={ () => {} }>
+              {t("GET REWARD")} 
+          </StyledStakeItemButton>} {/*Отключено (Убрать проверку на версию и оставить кнопку для version === 1)*/}
       </StyledStakeItemRowWithButton>
       <StyledStakeItemRowWithButton>
           <StyledStakeItemTextWithButton>
@@ -417,20 +419,23 @@ export const StakeItem = ({
               <p>{ inStake }</p>
           </StyledStakeItemTextWithButton>
 
-          <StyledStakeItemButton activeButton={ approved && canWithdraw} onClick={canWithdraw ? withdraw : () => {}}>
+          {version == "1" ? <StyledStakeItemButton activeButton={ approved && canWithdraw} onClick={canWithdraw ? withdraw : () => {}}>
               {(activeButton && `${t("STAKE.STAKE")} $TURBO`) ||
                   version == "1" ? `${t("STAKE.WITHDRAW1")}` : `${t("STAKE.WITHDRAW2")}`}{" "}
-          </StyledStakeItemButton>
+          </StyledStakeItemButton> : <StyledStakeItemButton activeButton={ false } onClick={() => {}}>
+              {(activeButton && `${t("STAKE.STAKE")} $TURBO`) ||
+                  version == "1" ? `${t("STAKE.WITHDRAW1")}` : `${t("STAKE.WITHDRAW2")}`}{" "}
+          </StyledStakeItemButton> } {/*Отключено (Убрать проверку на версию и оставить кнопку для version === 1)*/}
       </StyledStakeItemRowWithButton>
       {version == "1" ? <StyledStakeItemRowWithButton>
-          <StyledStakeItemButton onClick={ approved ? handleStake : () => {} } activeButton={approved} style={{ width: '100%' }}>{/*approved ? handleStake : () => {}*/}
+          <StyledStakeItemButton onClick={ approved ? handleStake : () => {} } activeButton={approved} style={{ width: '100%' }}>
           {t("STAKE.STAKE")}
           </StyledStakeItemButton>
       </StyledStakeItemRowWithButton> : version == "2" ?
       <StyledStakeItemRowWithButton>
-           <StyledStakeItemButton onClick={ approved ? () => {} : () => {} } activeButton={approved} style={{ width: '100%' }}>{/*approved ? handleStake : () => {}*/}
+           <StyledStakeItemButton onClick={ approved ? () => {} : () => {} } activeButton={false} style={{ width: '100%' }}>{/*approved ? handleStake : () => {}*/}{/*activeButton={approved}*/}
           {"SOON"}{/*t(STAKE.STAKE)*/}
-          </StyledStakeItemButton>
+          </StyledStakeItemButton>{/*Отключено (вернуть activeButton и handleStake)*/}
 </StyledStakeItemRowWithButton>
       :null}
       {version == "2" ? 
@@ -440,11 +445,16 @@ export const StakeItem = ({
           </StyledStakeItemButton>
       </StyledStakeItemRowWithButton>
       : null}
-      <StyledStakeItemRowWithButton>
+      {version == "1" ? <StyledStakeItemRowWithButton>
           <StyledStakeItemButton onClick={ needToApprove ? (!approved ? approve : () => {}) : handleUseConnection } activeButton={ !approved } style={{ width: '100%' }}>
               { needToApprove ? (approved ? 'Approved' : 'Approve') : t("STAKE.CONNECT") }
           </StyledStakeItemButton>
-      </StyledStakeItemRowWithButton>
+      </StyledStakeItemRowWithButton> :
+      <StyledStakeItemRowWithButton>
+          <StyledStakeItemButton onClick={ needToApprove ? (!approved ? () => {} : () => {}) : handleUseConnection } activeButton={ !needToApprove } style={{ width: '100%' }}>
+              { needToApprove ? (approved ? 'Approved' : 'Approve') : t("STAKE.CONNECT") }
+          </StyledStakeItemButton>
+      </StyledStakeItemRowWithButton> } {/*Отключено (Убрать проверку на версию и оставить кнопку для version === 1)*/}
       { account ? 
           <StyledStakeItemAccountId>Connected as { `${account.slice(0, 6)}...${account.slice(38, 42)}` }</StyledStakeItemAccountId>
           : null
@@ -492,11 +502,17 @@ export const StakeItem = ({
         </StyledStakeItemTextWithButton>
      </div>
      <div>
-     <StyledStakeItemButton activeButton={ approved && canHarvest } onClick={ approved && canHarvest ? harvest : () => {} }  style={{'margin-bottom': '4vh', 'textDecoration': 'none'}}>
+     {/* <StyledStakeItemButton activeButton={ approved && canHarvest } onClick={ approved && canHarvest ? harvest : () => {} }  style={{'margin-bottom': '4vh', 'textDecoration': 'none'}}>
         {t("WITHDRAW $USDT")}
       </StyledStakeItemButton>
      <StyledStakeItemButton activeButton={ approved && canWithdraw} onClick={canWithdraw ? withdraw : () => {}}>
         {t("STAKE.WITHDRAW2")}
+      </StyledStakeItemButton> */}
+      <StyledStakeItemButton activeButton={ false } onClick={ () => {} }  style={{'margin-bottom': '4vh', 'textDecoration': 'none'}}>
+        {t("WITHDRAW $USDT")}
+      </StyledStakeItemButton>
+     <StyledStakeItemButton activeButton={ false } onClick={ () => {} }>
+        {t("STAKE.WITHDRAW2")}{/*Отключено (Убрать эти две и вернуть закоменченные)*/}
       </StyledStakeItemButton>
     </div>
   </StyledStakeItemRowWithButton>
@@ -504,9 +520,9 @@ export const StakeItem = ({
 
    {version == "3" ? <div>
     <StyledStakeItemRowWithButton>
-          <StyledStakeItemButton onClick={ approved ? () => {} : () => {} } activeButton={approved} style={{ width: '100%' }}>{/*approved ? handleStake : () => {}*/}
+          <StyledStakeItemButton onClick={ approved ? () => {} : () => {} } activeButton={false} style={{ width: '100%' }}>{/*approved ? handleStake : () => {}*/}
           {"SOON"}{/*t(STAKE.STAKE)*/}
-          </StyledStakeItemButton>
+          </StyledStakeItemButton>{/*Отключено (вернуть handleStake, activeButton={approved}, надпись)*/}
    </StyledStakeItemRowWithButton>
    <StyledStakeItemRowWithButton>
         <StyledStakeItemButton onClick={() => window.open('https://app.uniswap.org/#/add/v2/ETH/0x6A5432fE9a2150Dc16e6C7354Bc5B115609Fd71f', '_blank')} activeButton={ true } style={{ width: '100%' }}>
@@ -514,9 +530,12 @@ export const StakeItem = ({
         </StyledStakeItemButton>
         </StyledStakeItemRowWithButton>
       <StyledStakeItemRowWithButton>
-      <StyledStakeItemButton onClick={ needToApprove ? (!approved ? approve : () => {}) : handleUseConnection } activeButton={ !approved } style={{ width: '100%' }}>
+      {/* <StyledStakeItemButton onClick={ needToApprove ? (!approved ? approve : () => {}) : handleUseConnection } activeButton={ !approved } style={{ width: '100%' }}>
         { needToApprove ? (approved ? 'Approved' : 'Approve' ) : t("STAKE.CONNECT") }
-       </StyledStakeItemButton>
+       </StyledStakeItemButton> */} 
+       <StyledStakeItemButton onClick={ needToApprove ? (!approved ? () => {} : () => {}) : handleUseConnection } activeButton={ !needToApprove } style={{ width: '100%' }}>
+        { needToApprove ? (approved ? 'Approved' : 'Approve' ) : t("STAKE.CONNECT") }
+       </StyledStakeItemButton>{/*Отключено (Убрать эту вернуть закоменченную)*/}
 </StyledStakeItemRowWithButton>
 { account ? 
 <StyledStakeItemAccountId>Connected as { `${account.slice(0, 6)}...${account.slice(38, 42)}` }</StyledStakeItemAccountId>

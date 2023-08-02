@@ -117,13 +117,11 @@ const networks = {
         nativeCurrency: {
             name: "Ethereum Native Token",
             symbol: "ETH",
-            decimals: 18
+            decimals: 18,
         },
-        rpcUrls: [
-            "https://mainnet.infura.io/v3/c3ce9016311c4a9e81eaaeeb98f96359"
-        ],
-        blockExplorerUrls: ["https://etherscan.com"]
-    }
+        rpcUrls: ["https://rpc.ankr.com/eth"],
+        blockExplorerUrls: ["https://etherscan.com"],
+    },
 };
 
 const changeNetwork = async ({ networkName, setError }) => {

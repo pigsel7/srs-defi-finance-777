@@ -95,12 +95,10 @@ const StyledStakeItemButton = styled.a`
     letter-spacing: 0.02em;
     color: #ffffff;
     transition-duration: 0.2s;
+    ${(props) => props.activeButton && "background: #ff0035;"}
     ${(props) =>
         props.activeButton &&
-        "background: linear-gradient(83.53deg, #B114FF 0, #B114FF 24.77%, #FF1493 100.89%);"}
-    ${(props) =>
-        props.activeButton &&
-        "&:hover { background-position: left center; background-size: 200%;}"}
+        "&:hover { background-position: left center; background-size: 200%; box-shadow: 0 0 16px #ff0035; -moz-box-shadow: 0 0 16px #ff0035; -o-box-shadow: 0 0 16px #ff0035; -ms-box-shadow: 0 0 16px #ff0035; -webkit-box-shadow: 0 0 16px #ff0035;}"}
         
     img {
         margin-left: 12px;
@@ -127,7 +125,7 @@ export const WindrawPopUp = ({version, visible, onClose, onConfirm, inStake }) =
         setAmount(+event.target.value);
     }
 
-    return version == "1" ? <PopUp label="Withdraw METO" visible={visible} onClose={ handleClose }>
+    return version == "1" ? <PopUp label="Withdraw $TURBO" visible={visible} onClose={ handleClose }>
         <StyledStakeAmount>
             <input type="text" value={ amount } onChange={ handleInputChange }/>
             <div className="currency">
